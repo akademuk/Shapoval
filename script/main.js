@@ -139,9 +139,13 @@ document.addEventListener("DOMContentLoaded", function() {
             disableOnInteraction: false, 
             pauseOnMouseEnter: true
         },
-      
         speed: 500,
         effect: 'slide', 
+        breakpoints: {
+            1280: {
+                spaceBetween: 24,
+            }
+        }
     });
 
     const sliderElement = document.querySelector('.section-slider');
@@ -154,6 +158,8 @@ document.addEventListener("DOMContentLoaded", function() {
         swiper1.autoplay.start();
     });
 });
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
     var swiper1 = new Swiper(".section-reviews-slider", {
@@ -208,13 +214,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener("DOMContentLoaded", function() {
     const popup = document.getElementById('main-popup');
-    const popupText = document.getElementById('popup-text');
     
     const openPopupButtons = document.querySelectorAll('.open-popup-btn');
     openPopupButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const content = this.dataset.content;
-            popupText.textContent = content;
             popup.style.display = 'flex';
         });
     });
@@ -244,5 +247,19 @@ document.addEventListener("DOMContentLoaded", function () {
             this.innerHTML = ''; // Очищаем содержимое контейнера
             this.appendChild(iframe); // Добавляем iframe с видео
         });
+    });
+});
+
+$(document).ready(function() {
+    $('a[href^="#"]').on('click', function(event) {
+        event.preventDefault();
+        
+        var target = $(this.getAttribute('href'));
+
+        if (target.length) {
+            $('html, body').animate({
+                scrollTop: target.offset().top
+            }, 1000); 
+        }
     });
 });
