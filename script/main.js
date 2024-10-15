@@ -76,18 +76,20 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function() {
-    $('.btn-play').on('click', function() {
-        var video = $(this).siblings('video')[0]; 
-        
-        video.play(); 
-        $(this).hide();
+    $('[data-fancybox]').fancybox({
+        youtube : {
+            controls : 1,
+            showinfo : 0
+        },
+        vimeo : {
+            color : 'f00'
+        }
     });
-});
 
-document.querySelector('.play-btn').addEventListener('click', function() {
-    var iframe = document.getElementById('youtube-video');
-    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-    this.style.display = 'none'; 
+    // Check if the element exists and binds Fancybox
+    $('.play-btn').on('click', function(event) {
+        console.log("Fancybox should open now for video: " + $(this).attr('href'));
+    });
 });
 
 function toggleCards() {
@@ -114,10 +116,8 @@ function toggleCards() {
     }
 }
 
-
 toggleCards();
 window.addEventListener('resize', toggleCards);
-
 
 document.addEventListener("DOMContentLoaded", function() {
     var swiper = new Swiper(".section-about-slider", {
@@ -128,14 +128,13 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 });
 
-
 document.addEventListener("DOMContentLoaded", function() {
     var swiper1 = new Swiper(".section-slider", {
         loop: true, 
         slidesPerView: "auto",
         spaceBetween: 16,   
         autoplay: {
-            delay: 3000, 
+            delay: 500, 
             disableOnInteraction: false, 
             pauseOnMouseEnter: true
         },
@@ -158,8 +157,6 @@ document.addEventListener("DOMContentLoaded", function() {
         swiper1.autoplay.start();
     });
 });
-
-
 
 document.addEventListener("DOMContentLoaded", function() {
     var swiper1 = new Swiper(".section-reviews-slider", {
@@ -234,22 +231,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('.video-placeholder').forEach(placeholder => {
-        placeholder.addEventListener('click', function () {
-            const videoId = this.getAttribute('data-video-id');
-            const iframe = document.createElement('iframe');
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=0&modestbranding=1&rel=0`;
-            iframe.frameBorder = "0";
-            iframe.allow = "autoplay; encrypted-media";
-            iframe.allowFullscreen = true;
-            iframe.loading = "lazy"; // Ленивая загрузка для оптимизации
-            this.innerHTML = ''; // Очищаем содержимое контейнера
-            this.appendChild(iframe); // Добавляем iframe с видео
-        });
-    });
-});
-
 $(document).ready(function() {
     $('a[href^="#"]').on('click', function(event) {
         event.preventDefault();
@@ -261,5 +242,33 @@ $(document).ready(function() {
                 scrollTop: target.offset().top
             }, 1000); 
         }
+    });
+});
+
+$(document).ready(function() {
+    // Initialize Fancybox
+    $('[data-fancybox="video"]').fancybox();
+
+    // Click event for play button
+    $('.btn-play').on('click', function(event) {
+        event.preventDefault(); // Prevent the default action
+
+        // Trigger the Fancybox link's click event
+        $(this).siblings('.fancybox-link').trigger('click');
+    });
+});
+
+$(document).ready(function() {
+    // Initialize Fancybox for the gallery
+    $('[data-fancybox="gallery"]').fancybox({
+        buttons: ['close']
+    });
+
+    // Trigger Fancybox when clicking on the button
+    $('.section-reviews-opens2').on('click', function(event) {
+        event.preventDefault(); // Prevent default button behavior
+
+        // Find the sibling <a> tag with the data-fancybox attribute and trigger a click on it
+        $(this).siblings('a[data-fancybox="gallery"]').trigger('click');
     });
 });
