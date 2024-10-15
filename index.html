@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <link rel="stylesheet" href="style/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style/swiper-bundle.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="style/jquery.fancybox.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://use.typekit.net/ytp3bxc.css">
-    <link rel="stylesheet" href="style/jquery.fancybox.min.css">
     <link rel="stylesheet" href="style/reset.css" />
-    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/style.min.css" />
 </head>
 
 <body>
@@ -1504,10 +1504,34 @@
 
 
     <script src="script/jquery-3.7.0.min.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="script/swiper-bundle.min.js"></script>
-    <script src="script/jquery.fancybox.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api" async></script>
+    <script src="script/swiper-bundle.min.js" defer></script>
+    <script src="script/jquery.fancybox.min.js" defer></script>
     <script src="script/main.js"></script>
+
+    <script>
+        function loadScript(url, callback) {
+            var script = document.createElement("script");
+            script.src = url;
+            script.onload = callback;
+            document.head.appendChild(script);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            loadScript("https://www.youtube.com/iframe_api", function() {
+                console.log("YouTube API loaded.");
+            });
+            loadScript("script/swiper-bundle.min.js", function() {
+                console.log("Swiper loaded.");
+                // Initialize Swiper here if necessary
+            });
+            loadScript("script/jquery.fancybox.min.js", function() {
+                console.log("Fancybox loaded.");
+                // Initialize Fancybox here if necessary
+            });
+        });
+
+    </script>
 </body>
 
 </html>
